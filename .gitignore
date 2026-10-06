@@ -1,0 +1,8 @@
+target/
+config.properties
+.idea/
+*.iml
+.DS_Store
+data/backups/
+data/.*.tmp
+data/~$*

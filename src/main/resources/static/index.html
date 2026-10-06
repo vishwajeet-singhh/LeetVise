@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#f6f6f3">
+  <title>LeetVise</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230b7d6b'/><path d='M9 17l5 5 9-12' stroke='white' stroke-width='3.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="brand">
+      <div class="logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path d="M5 12.5l4.2 4.2L19 7" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div>
+        <h1>LeetVise</h1>
+        <small class="mono" id="subtitle">Loading…</small>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn" id="btn-excel" title="Open the Excel file">Open Excel</button>
+      <button class="btn" id="btn-csv" title="Download what the table shows as CSV">Export CSV</button>
+      <button class="btn primary" id="btn-sync">Sync LeetCode</button>
+    </div>
+  </header>
+
+  <div class="banner" id="banner" hidden></div>
+
+  <section class="stats" id="stats"></section>
+
+  <section class="card pick" id="pick"></section>
+
+  <section class="card table-card">
+    <div class="filters">
+      <input class="search" id="q" type="search" placeholder="Search title, number, topic or note   /">
+      <div class="chips" id="diff-chips">
+        <button class="chip on" data-d="Easy"><i class="dot easy"></i>Easy</button>
+        <button class="chip on" data-d="Medium"><i class="dot medium"></i>Medium</button>
+        <button class="chip on" data-d="Hard"><i class="dot hard"></i>Hard</button>
+      </div>
+      <select id="range" title="When you last solved it on LeetCode">
+        <option value="any">Solved: any time</option>
+        <option value="w7">Last 7 days</option>
+        <option value="w15">Last 15 days</option>
+        <option value="w30">Last 30 days</option>
+        <option value="w90">Last 90 days</option>
+        <option value="o7">More than 7 days ago</option>
+        <option value="o15">More than 15 days ago</option>
+        <option value="o30">More than 30 days ago</option>
+        <option value="o90">More than 90 days ago</option>
+      </select>
+      <select id="tag"><option value="">All topics</option></select>
+      <div class="chips">
+        <button class="chip toggle" id="f-due" title="Scheduled for revision today or overdue">Due now</button>
+        <button class="chip toggle" id="f-never" title="Never revised since you solved it">Never revised</button>
+        <button class="chip toggle" id="f-weak" title="Rated Again or Hard last time">Weak</button>
+      </div>
+      <span class="count mono" id="count"></span>
+      <button class="link-btn" id="reset">Reset</button>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th data-sort="id">#</th>
+            <th data-sort="title">Problem</th>
+            <th data-sort="difficulty">Level</th>
+            <th class="col-tags nosort">Topics</th>
+            <th data-sort="lastSolved">Last solved</th>
+            <th data-sort="nextReview">Next revision</th>
+            <th data-sort="timesRevised">Revised</th>
+            <th class="col-conf" data-sort="confidence">Confidence</th>
+            <th class="nosort"></th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="below">
+    <div class="card">
+      <h3>Add a problem</h3>
+      <div class="add-row">
+        <input class="input" id="add-input" placeholder="https://leetcode.com/problems/two-sum/  or  two-sum">
+        <button class="btn primary" id="add-btn">Add</button>
+      </div>
+      <p class="hint" id="excel-hint"></p>
+    </div>
+    <div class="card">
+      <h3>Top topics</h3>
+      <div class="topic-bars" id="topics"></div>
+    </div>
+    <div class="card">
+      <h3>Revision history</h3>
+      <div class="log-list" id="log"></div>
+    </div>
+  </section>
+
+  <p class="hint shortcuts">
+    <kbd>R</kbd> random pick <span>·</span> <kbd>O</kbd> open it <span>·</span> <kbd>1</kbd>–<kbd>4</kbd> rate it <span>·</span> <kbd>/</kbd> search
+  </p>
+</div>
+
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <h3 id="modal-title">Notes</h3>
+    <textarea id="modal-text" placeholder="Key idea, pattern, edge cases, complexity…"></textarea>
+    <div class="actions">
+      <button class="btn" id="modal-cancel">Cancel</button>
+      <button class="btn primary" id="modal-save">Save to Excel</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
