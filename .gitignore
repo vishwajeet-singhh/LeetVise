@@ -6,3 +6,4 @@ config.properties
 data/backups/
 data/.*.tmp
 data/~$*
+.env
