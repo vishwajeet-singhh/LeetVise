@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  LeetVise – revise the LeetCode problems you've already solved.
+
+  Copyright (c) 2026 Vishwajeet Pratap Singh
+
+  Author:    Vishwajeet Pratap Singh
+  GitHub:    https://github.com/vishwajeet-singhh
+  LinkedIn:  https://www.linkedin.com/in/vishwajeetsage/
+  Portfolio: https://vishwajeet.me
+  Source:    https://github.com/vishwajeet-singhh/LeetVise
+-->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -11,11 +23,28 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.leetvise</groupId>
+    <groupId>recusant_byte.vishwajeet</groupId>
     <artifactId>leetvise</artifactId>
     <version>1.0.0</version>
     <name>LeetVise</name>
     <description>Revise the LeetCode problems you have already solved. Data is kept in an Excel file.</description>
+    <url>https://github.com/vishwajeet-singhh/LeetVise</url>
+    <inceptionYear>2026</inceptionYear>
+
+    <developers>
+        <developer>
+            <id>vishwajeet-singhh</id>
+            <name>Vishwajeet Pratap Singh</name>
+            <url>https://vishwajeet.me</url>
+            <roles>
+                <role>author</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <scm>
+        <url>https://github.com/vishwajeet-singhh/LeetVise</url>
+    </scm>
 
     <properties>
         <java.version>21</java.version>
@@ -55,3 +84,5 @@
         </plugins>
     </build>
 </project>
+
+<!-- LeetVise · © 2026 Vishwajeet Pratap Singh · github.com/vishwajeet-singhh · linkedin.com/in/vishwajeetsage · vishwajeet.me -->

@@ -8,16 +8,9 @@
 # Portfolio: https://vishwajeet.me
 # Source:    https://github.com/vishwajeet-singhh/LeetVise
 
-target/
-.idea/
-*.iml
-.vscode/
-.DS_Store
-
-# your settings (LeetCode cookie) – never commit
-.env
-
-# your data: the workbook, its daily backups, and temp/lock files
-data/
+mvnw text eol=lf
+*.sh text eol=lf
+*.cmd text eol=crlf
+*.xlsx binary
 
 # LeetVise · © 2026 Vishwajeet Pratap Singh · github.com/vishwajeet-singhh · linkedin.com/in/vishwajeetsage · vishwajeet.me

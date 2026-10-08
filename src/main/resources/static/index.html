@@ -1,129 +1,390 @@
 <!DOCTYPE html>
+<!--
+  LeetVise – revise the LeetCode problems you've already solved.
+
+  Copyright (c) 2026 Vishwajeet Pratap Singh
+
+  Author:    Vishwajeet Pratap Singh
+  GitHub:    https://github.com/vishwajeet-singhh
+  LinkedIn:  https://www.linkedin.com/in/vishwajeetsage/
+  Portfolio: https://vishwajeet.me
+  Source:    https://github.com/vishwajeet-singhh/LeetVise
+-->
+
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
+  <meta name="author" content="Vishwajeet Pratap Singh">
+  <meta name="description" content="LeetVise by Vishwajeet Pratap Singh – revise the LeetCode problems you've already solved.">
   <meta name="theme-color" content="#f6f6f3">
   <title>LeetVise</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230b7d6b'/><path d='M9 17l5 5 9-12' stroke='white' stroke-width='3.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='9' fill='%230f766e'/><path d='M9 17l5 5 9-12' stroke='white' stroke-width='3.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="wrap">
+<!-- gradients for the progress rings -->
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="g-teal" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3cc6b1"/><stop offset="1" stop-color="#0f766e"/></linearGradient>
+    <linearGradient id="g-easy" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4fd8a5"/><stop offset="1" stop-color="#119366"/></linearGradient>
+    <linearGradient id="g-medium" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffcc5c"/><stop offset="1" stop-color="#de8f00"/></linearGradient>
+    <linearGradient id="g-hard" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f88a8b"/><stop offset="1" stop-color="#d63637"/></linearGradient>
+  </defs>
+</svg>
 
-  <header>
-    <div class="brand">
-      <div class="logo" aria-hidden="true">
-        <svg viewBox="0 0 24 24" width="22" height="22"><path d="M5 12.5l4.2 4.2L19 7" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-      <div>
-        <h1>LeetVise</h1>
-        <small class="mono" id="subtitle">Loading…</small>
-      </div>
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="#revise" aria-label="LeetVise home">
+      <span class="logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="16" height="16"><path d="M5 12.5l4.2 4.2L19 7" stroke="currentColor" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="brand-name">LeetVise</span>
+    </a>
+
+    <nav class="tabs" role="tablist">
+      <a class="tab" href="#revise" data-view="revise" role="tab">Revise</a>
+      <a class="tab" href="#insights" data-view="insights" role="tab">Insights</a>
+    </nav>
+
+    <div class="top-actions">
+      <button class="user-chip" id="user-chip" title="Your LeetCode account">
+        <span class="status-dot" id="sync-dot"></span>
+        <span class="user-text">
+          <span class="user-name" id="user-name">…</span>
+          <span class="user-sub" id="user-sub">loading</span>
+        </span>
+      </button>
+      <button class="btn primary" id="btn-sync" title="Pull new solves from LeetCode (Shift-click: full re-scan)">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12a8 8 0 0 1 14.3-4.9M18.5 3v4.2h-4.2M5.5 21v-4.2h4.2"/></svg>
+        <span id="sync-label">Sync</span>
+      </button>
     </div>
-    <div class="header-actions">
-      <button class="btn" id="btn-excel" title="Open the Excel file">Open Excel</button>
-      <button class="btn" id="btn-csv" title="Download what the table shows as CSV">Export CSV</button>
-      <button class="btn primary" id="btn-sync">Sync LeetCode</button>
-    </div>
-  </header>
+  </div>
+</header>
+
+<main class="wrap">
 
   <div class="banner" id="banner" hidden></div>
 
-  <section class="stats" id="stats"></section>
-
-  <section class="card pick" id="pick"></section>
-
-  <section class="card table-card">
-    <div class="filters">
-      <input class="search" id="q" type="search" placeholder="Search title, number, topic or note   /">
-      <div class="chips" id="diff-chips">
-        <button class="chip on" data-d="Easy"><i class="dot easy"></i>Easy</button>
-        <button class="chip on" data-d="Medium"><i class="dot medium"></i>Medium</button>
-        <button class="chip on" data-d="Hard"><i class="dot hard"></i>Hard</button>
+  <!-- ===================================================== onboarding -->
+  <section class="onboard" id="onboard" hidden>
+    <div class="onboard-card">
+      <div class="eyebrow">Welcome</div>
+      <h1>Which LeetCode account is yours?</h1>
+      <p class="lead">LeetVise pulls the problems you've solved into an Excel sheet, then helps you revise them before you forget – and shows where you keep slipping.</p>
+      <form class="onboard-form" id="onboard-form">
+        <label class="field">
+          <span class="field-label">LeetCode username</span>
+          <input class="input" id="onboard-input" placeholder="your_username  or  leetcode.com/u/your_username" autocomplete="off" spellcheck="false">
+        </label>
+        <button class="btn primary lg" type="submit" id="onboard-btn">Continue</button>
+      </form>
+      <div class="onboard-foot">
+        <p><b>Want everything?</b> Without logging in LeetCode only shares your ~20 latest solves. Put your <code>LEETCODE_SESSION</code> cookie in <code>.env</code> to load every problem plus your full submission history – that's what powers the mistake analysis. Your username is then detected automatically.</p>
       </div>
-      <select id="range" title="When you last solved it on LeetCode">
-        <option value="any">Solved: any time</option>
-        <option value="w7">Last 7 days</option>
-        <option value="w15">Last 15 days</option>
-        <option value="w30">Last 30 days</option>
-        <option value="w90">Last 90 days</option>
-        <option value="o7">More than 7 days ago</option>
-        <option value="o15">More than 15 days ago</option>
-        <option value="o30">More than 30 days ago</option>
-        <option value="o90">More than 90 days ago</option>
-      </select>
-      <select id="tag"><option value="">All topics</option></select>
-      <div class="chips">
-        <button class="chip toggle" id="f-due" title="Scheduled for revision today or overdue">Due now</button>
-        <button class="chip toggle" id="f-never" title="Never revised since you solved it">Never revised</button>
-        <button class="chip toggle" id="f-weak" title="Rated Again or Hard last time">Weak</button>
-      </div>
-      <span class="count mono" id="count"></span>
-      <button class="link-btn" id="reset">Reset</button>
-    </div>
-
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th data-sort="id">#</th>
-            <th data-sort="title">Problem</th>
-            <th data-sort="difficulty">Level</th>
-            <th class="col-tags nosort">Topics</th>
-            <th data-sort="lastSolved">Last solved</th>
-            <th data-sort="nextReview">Next revision</th>
-            <th data-sort="timesRevised">Revised</th>
-            <th class="col-conf" data-sort="confidence">Confidence</th>
-            <th class="nosort"></th>
-          </tr>
-        </thead>
-        <tbody id="rows"></tbody>
-      </table>
     </div>
   </section>
 
-  <section class="below">
-    <div class="card">
-      <h3>Add a problem</h3>
-      <div class="add-row">
-        <input class="input" id="add-input" placeholder="https://leetcode.com/problems/two-sum/  or  two-sum">
-        <button class="btn primary" id="add-btn">Add</button>
+  <!-- ===================================================== revise -->
+  <section class="view" id="view-revise" data-view="revise" hidden>
+
+    <div class="stats" id="stats"></div>
+
+    <section class="card pick" id="pick" aria-live="polite"></section>
+
+    <section class="card table-card">
+      <div class="toolbar">
+        <div class="search-box">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg>
+          <input class="search" id="q" type="search" placeholder="Search title, #, topic, note" spellcheck="false">
+          <kbd>/</kbd>
+        </div>
+        <div class="seg" id="diff-chips" role="group" aria-label="Difficulty">
+          <button class="seg-btn" data-d="Easy"><i class="dot easy"></i>Easy</button>
+          <button class="seg-btn" data-d="Medium"><i class="dot medium"></i>Medium</button>
+          <button class="seg-btn" data-d="Hard"><i class="dot hard"></i>Hard</button>
+        </div>
+        <div class="select-wrap">
+          <select id="range" title="When you last solved it on LeetCode">
+            <option value="any">Solved: any time</option>
+            <option value="w7">Last 7 days</option>
+            <option value="w15">Last 15 days</option>
+            <option value="w30">Last 30 days</option>
+            <option value="w90">Last 90 days</option>
+            <option value="o7">Over 7 days ago</option>
+            <option value="o15">Over 15 days ago</option>
+            <option value="o30">Over 30 days ago</option>
+            <option value="o90">Over 90 days ago</option>
+          </select>
+        </div>
+        <div class="select-wrap">
+          <select id="tag"><option value="">All topics</option></select>
+        </div>
+        <div class="toggles">
+          <button class="toggle" id="f-due" title="Scheduled for revision today or overdue">Due</button>
+          <button class="toggle" id="f-never" title="Never revised since you solved it">Never revised</button>
+          <button class="toggle" id="f-weak" title="Rated Again or Hard last time">Weak</button>
+          <button class="toggle" id="f-struggled" title="Took 2+ failed submissions on LeetCode">Struggled</button>
+        </div>
+        <div class="toolbar-end">
+          <span class="count" id="count"></span>
+          <button class="link-btn" id="reset">Reset</button>
+          <span class="divider" aria-hidden="true"></span>
+          <button class="icon-btn" id="btn-add" title="Add a problem by URL">
+            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+          <button class="icon-btn" id="btn-csv" title="Download what the table shows as CSV">
+            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>
+          </button>
+          <button class="icon-btn" id="btn-excel" title="Open the Excel file">
+            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2.5"/><path d="M4 9.5h16M9.5 9.5V20"/></svg>
+          </button>
+        </div>
       </div>
-      <p class="hint" id="excel-hint"></p>
-    </div>
-    <div class="card">
-      <h3>Top topics</h3>
-      <div class="topic-bars" id="topics"></div>
-    </div>
-    <div class="card">
-      <h3>Revision history</h3>
+
+      <div class="table-wrap">
+        <table class="grid">
+          <colgroup>
+            <col style="width:68px"><col><col style="width:110px"><col class="col-tags" style="width:210px">
+            <col class="col-tries" style="width:96px"><col style="width:140px"><col style="width:150px">
+            <col class="col-conf" style="width:112px"><col style="width:140px">
+          </colgroup>
+          <thead>
+            <tr>
+              <th class="r" data-sort="id">#</th>
+              <th data-sort="title">Problem</th>
+              <th data-sort="difficulty">Level</th>
+              <th class="col-tags nosort">Topics</th>
+              <th class="col-tries r" data-sort="failed" title="Submissions on LeetCode (failed ones in red)">Tries</th>
+              <th data-sort="lastSolved">Last solved</th>
+              <th data-sort="nextReview">Next revision</th>
+              <th class="col-conf" data-sort="timesRevised" title="Last rating and how often you've revised it">Recall</th>
+              <th class="nosort"><span class="sr-only">Actions</span></th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card history">
+      <div class="card-head">
+        <h3>Recent revisions</h3>
+        <span class="card-sub">logged in the “Revision Log” sheet</span>
+      </div>
       <div class="log-list" id="log"></div>
+    </section>
+  </section>
+
+  <!-- ===================================================== insights -->
+  <section class="view" id="view-insights" data-view="insights" hidden>
+    <div class="view-head">
+      <div>
+        <h2>Insights</h2>
+        <p class="muted" id="insights-sub">Computed from your problems, submissions and revisions.</p>
+      </div>
+    </div>
+
+    <div class="kpis" id="kpis"></div>
+
+    <div class="grid-2">
+      <section class="card">
+        <div class="card-head">
+          <h3>What to work on</h3>
+          <span class="card-sub">ranked suggestions</span>
+        </div>
+        <ol class="tips" id="tips"></ol>
+      </section>
+      <section class="card">
+        <div class="card-head">
+          <h3>Topic snapshot</h3>
+          <span class="card-sub">score out of 100</span>
+        </div>
+        <div class="split-list">
+          <div>
+            <div class="list-title"><span class="lvl weak">▼</span>Needs work</div>
+            <ul class="mini-topics" id="weakest"></ul>
+          </div>
+          <div>
+            <div class="list-title"><span class="lvl strong">▲</span>Strongest</div>
+            <ul class="mini-topics" id="strongest"></ul>
+          </div>
+        </div>
+        <p class="footnote" id="mastery-note"></p>
+      </section>
+    </div>
+
+    <section class="card table-card">
+      <div class="card-head padded">
+        <div>
+          <h3>Topic mastery</h3>
+          <span class="card-sub" id="mastery-sub">click a topic to revise its problems</span>
+        </div>
+        <div class="seg" id="topic-filter" role="group" aria-label="Topic level">
+          <button class="seg-btn on" data-lvl="all">All</button>
+          <button class="seg-btn" data-lvl="weak">Weak</button>
+          <button class="seg-btn" data-lvl="steady">Steady</button>
+          <button class="seg-btn" data-lvl="strong">Strong</button>
+        </div>
+      </div>
+      <div class="table-wrap open">
+        <table class="grid topics-table">
+          <colgroup>
+            <col><col style="width:116px"><col style="width:170px"><col style="width:116px"><col style="width:100px">
+            <col style="width:104px"><col style="width:230px"><col style="width:96px"><col style="width:118px">
+          </colgroup>
+          <thead>
+            <tr>
+              <th data-tsort="name">Topic</th>
+              <th data-tsort="level">Level</th>
+              <th data-tsort="score">Score</th>
+              <th class="r" data-tsort="solved">Solved</th>
+              <th class="r" data-tsort="firstTryRate" title="Problems accepted on the first submission">1st try</th>
+              <th class="r" data-tsort="acceptanceRate" title="Accepted submissions / all submissions">Accept</th>
+              <th data-tsort="failed" title="Failed submissions by type">Mistakes</th>
+              <th class="r" data-tsort="recallRate" title="Revisions rated Good or Easy">Recall</th>
+              <th class="r" data-tsort="daysSinceTouched" title="Median days since you last solved or revised its problems">Last seen</th>
+            </tr>
+          </thead>
+          <tbody id="topic-rows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="grid-3">
+      <section class="card">
+        <div class="card-head">
+          <h3>Mistake types</h3>
+          <span class="card-sub" id="mistake-sub"></span>
+        </div>
+        <div class="hbars" id="mistakes"></div>
+      </section>
+      <section class="card">
+        <div class="card-head">
+          <h3>By difficulty</h3>
+          <span class="card-sub">solved of LeetCode total</span>
+        </div>
+        <div id="difficulties"></div>
+      </section>
+      <section class="card">
+        <div class="card-head">
+          <h3>Time of day</h3>
+          <span class="card-sub">acceptance rate</span>
+        </div>
+        <div class="cols" id="hours"></div>
+      </section>
+    </div>
+
+    <section class="card">
+      <div class="card-head">
+        <h3>Activity</h3>
+        <span class="card-sub" id="activity-sub"></span>
+      </div>
+      <div class="heatmap-wrap" id="heatmap"></div>
+    </section>
+
+    <div class="grid-3">
+      <section class="card">
+        <div class="card-head">
+          <h3>Took the most tries</h3>
+          <span class="card-sub">failed submissions</span>
+        </div>
+        <ul class="plist" id="struggles"></ul>
+      </section>
+      <section class="card">
+        <div class="card-head">
+          <h3>Tried, never solved</h3>
+          <span class="card-sub">unfinished business</span>
+        </div>
+        <ul class="plist" id="unsolved"></ul>
+      </section>
+      <section class="card">
+        <div class="card-head">
+          <h3>After a failed submit</h3>
+          <span class="card-sub">what passed next</span>
+        </div>
+        <div id="retries"></div>
+        <div class="card-head sub-head" id="languages-head">
+          <h3>Languages</h3>
+        </div>
+        <div class="hbars" id="languages"></div>
+      </section>
     </div>
   </section>
 
-  <p class="hint shortcuts">
-    <kbd>R</kbd> random pick <span>·</span> <kbd>O</kbd> open it <span>·</span> <kbd>1</kbd>–<kbd>4</kbd> rate it <span>·</span> <kbd>/</kbd> search
-  </p>
-</div>
+  <footer class="foot">
+    <p class="foot-line" id="excel-hint"></p>
+    <p class="shortcuts">
+      <span><kbd>R</kbd> random pick</span>
+      <span><kbd>O</kbd> open it</span>
+      <span><kbd>1</kbd>–<kbd>4</kbd> rate</span>
+      <span><kbd>/</kbd> search</span>
+      <span><kbd>G</kbd> switch view</span>
+    </p>
+    <p class="credit">
+      Built by <a href="https://vishwajeet.me" target="_blank" rel="noopener">Vishwajeet Pratap Singh</a>
+      <span>·</span><a href="https://github.com/vishwajeet-singhh" target="_blank" rel="noopener">GitHub</a>
+      <span>·</span><a href="https://www.linkedin.com/in/vishwajeetsage/" target="_blank" rel="noopener">LinkedIn</a>
+      <span>·</span><a href="https://vishwajeet.me" target="_blank" rel="noopener">vishwajeet.me</a>
+    </p>
+  </footer>
+</main>
 
-<div class="modal-bg" id="modal">
+<!-- ===================================================== modals -->
+<div class="modal-bg" id="modal-note" role="dialog" aria-modal="true" aria-labelledby="note-title">
   <div class="modal">
-    <h3 id="modal-title">Notes</h3>
-    <textarea id="modal-text" placeholder="Key idea, pattern, edge cases, complexity…"></textarea>
+    <div class="modal-head">
+      <h3 id="note-title">Notes</h3>
+      <button class="icon-btn" data-close aria-label="Close"><svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <textarea id="note-text" placeholder="Key idea, pattern, edge cases, complexity…" spellcheck="false"></textarea>
     <div class="actions">
-      <button class="btn" id="modal-cancel">Cancel</button>
-      <button class="btn primary" id="modal-save">Save to Excel</button>
+      <span class="muted small">Saved in the Notes column</span>
+      <button class="btn" data-close>Cancel</button>
+      <button class="btn primary" id="note-save">Save</button>
     </div>
   </div>
 </div>
 
-<div class="toast" id="toast"></div>
+<div class="modal-bg" id="modal-add" role="dialog" aria-modal="true" aria-labelledby="add-title">
+  <div class="modal sm">
+    <div class="modal-head">
+      <h3 id="add-title">Add a problem</h3>
+      <button class="icon-btn" data-close aria-label="Close"><svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <p class="muted small">For problems you solved somewhere LeetCode doesn't know about. Sync adds your LeetCode solves on its own.</p>
+    <input class="input" id="add-input" placeholder="leetcode.com/problems/two-sum  or  two-sum" spellcheck="false">
+    <div class="actions">
+      <button class="btn" data-close>Cancel</button>
+      <button class="btn primary" id="add-btn">Add</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modal-user" role="dialog" aria-modal="true" aria-labelledby="user-title">
+  <div class="modal sm">
+    <div class="modal-head">
+      <h3 id="user-title">Account</h3>
+      <button class="icon-btn" data-close aria-label="Close"><svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <dl class="kv" id="user-info"></dl>
+    <form class="user-form" id="user-form">
+      <input class="input" id="user-input" placeholder="LeetCode username" spellcheck="false" autocomplete="off">
+      <button class="btn primary" type="submit">Change</button>
+    </form>
+  </div>
+</div>
+
+<div class="tooltip" id="tooltip" role="tooltip"></div>
+<div class="toast" id="toast" role="status"></div>
 
 <script src="app.js"></script>
 </body>
 </html>
+
+<!-- LeetVise · © 2026 Vishwajeet Pratap Singh · github.com/vishwajeet-singhh · linkedin.com/in/vishwajeetsage · vishwajeet.me -->
