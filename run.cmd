@@ -1,8 +1,6 @@
 @echo off
 rem LeetVise - revise the LeetCode problems you've already solved.
 rem
-rem Copyright (c) 2026 Vishwajeet Pratap Singh
-rem
 rem Author:    Vishwajeet Pratap Singh
 rem GitHub:    https://github.com/vishwajeet-singhh
 rem LinkedIn:  https://www.linkedin.com/in/vishwajeetsage/
@@ -29,4 +27,4 @@ echo Starting LeetVise... ^(the first run downloads dependencies, give it a minu
 call mvnw.cmd -q spring-boot:run
 if errorlevel 1 pause
 
-rem LeetVise | (c) 2026 Vishwajeet Pratap Singh | github.com/vishwajeet-singhh | linkedin.com/in/vishwajeetsage | vishwajeet.me
+rem LeetVise | by Vishwajeet Pratap Singh | github.com/vishwajeet-singhh | linkedin.com/in/vishwajeetsage | vishwajeet.me
